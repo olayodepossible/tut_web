@@ -13,10 +13,12 @@ module.exports.homePage = async (req, res) => {
   //   req.session.visitcount += 1;
   try {
     const speakers = await speakerService.getList();
+    const artworks = await speakerService.getAllArtwork();
     res.render('layout', {
       pageTitle: 'Welcome',
       template: 'index',
       speakers,
+      artworks,
     });
   } catch (error) {
     console.log(`An Error occur -- ${error}`);
