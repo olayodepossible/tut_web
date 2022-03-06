@@ -7,9 +7,26 @@ const speakerService = new SpeakerService(speakerDataPath);
 module.exports.speakersPage = async (req, res) => {
   try {
     const speakers = await speakerService.getList();
-    return res.json(speakers);
+    res.render('layout', {
+      pageTitle: 'Speakers',
+      template: 'speakers',
+      speakers,
+    });
   } catch (error) {
     console.log(`An Error occur -- ${error}`);
-    return res.error;
+  }
+};
+
+module.exports.speakerPageByShortName = async (req, res) => {
+  const { shortname } = req.params;
+  try {
+    const speaker = await speakerService.getSpeaker(shortname);
+    res.render('layout', {
+      pageTitle: 'Speakers',
+      template: 'speakers-details',
+      speaker,
+    });
+  } catch (error) {
+    console.log(`An Error occur -- ${error}`);
   }
 };
