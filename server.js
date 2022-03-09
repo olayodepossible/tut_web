@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieSession = require('cookie-session');
 const creatError = require('http-errors');
+const bodyParser = require('body-parser')
 const router = require('./config/routes');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(
     keys: ['randomCharacter', 'RANDOMCHAR'],
   })
 );
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, './static')));
 
 router(app);

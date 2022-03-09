@@ -7,5 +7,6 @@ module.exports = (app) => {
 
   app.get('/speakers', speakerController.speakersPage);
   app.get('/speakers/:shortname', speakerController.speakerPageByShortName);
-  app.get('/feedback', feedbackController.feedbackPage);
+  app.get('/feedback', feedbackController.getFeedback);
+  app.post('/feedback', feedbackController.postFeedback);
 };
