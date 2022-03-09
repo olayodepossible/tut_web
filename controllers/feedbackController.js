@@ -1,5 +1,5 @@
 const path = require('path');
-const {check, validationResult} = require('express-validator');
+const { validationResult} = require('express-validator');
 const FeedbackService = require('../services/FeedbackService');
 const SpeakerService = require('../services/SpeakerService');
 
@@ -31,38 +31,12 @@ module.exports.getFeedback = async (req, res) => {
   }
 };
 
-/**
- * 
- * 
- */
 
-const errCheck = async ( )  => [
-      check('name')
-        .trim()
-        .isLength({min: 3})
-        .escape()
-        .withMessage('A valid name is required'),
-      check('email')
-        .trim()
-        .isEmail()
-        .normalizeEmail()
-        .withMessage('A valid email address is required'),
-      check('title')
-        .trim()
-        .isLength({min: 3})
-        .escape()
-        .withMessage('A title is required'),
-      check('message')
-        .trim()
-        .isLength({min: 5})
-        .escape()
-        .withMessage('A message is required')
-    ]
 
 module.exports.postFeedback = async (req, res) => {
  
   try {
-     await errCheck();
+     
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -79,5 +53,31 @@ module.exports.postFeedback = async (req, res) => {
     return error;
   }
 };
+
+
+module.exports.restFeedbackPost = async (req, res) => {
+ 
+  try {
+     
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      req.session.feedback = { err: errors.array()};
+      return res.json({erros: errors.array()});
+    }
+    const {name, email, title, message} = req.body;
+    await feedbackService.addEntry(name, email, title, message)
+    const feedback = await feedbackService.getList();
+    return res.json({feedback, successMessage: "Thank for your feedback"});
+  
+  } catch (error) {
+    console.log(`An Error occur -- ${error}`);
+    return error;
+  }
+};
+
+
+
+
 
  

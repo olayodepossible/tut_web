@@ -3,20 +3,26 @@
     <div class="col-md-4">
       <div class="maincontent">
         <h1>Send us feedback</h1>
-       <% if(locals.errors){ %>
+        <div class="feedback-status">
+          <% if(locals.errors){ %>
             <div class="alert alert-danger">
               <ul>
-                <% errors.forEach(error => { %>
-                  <li><%= error.msg %> </li>
-                <% }) %>
+                <% errors.forEach(error=> { %>
+                  <li>
+                    <%= error.msg %>
+                  </li>
+                  <% }) %>
               </ul>
             </div>
-            <% } else if (locals.successMessage) {%> 
+            <% } else if (locals.successMessage) {%>
               <div class="alert alert-success">
-                <%= successMessage %> 
+                <%= successMessage %>
               </div>
+          
+              <% } %>
 
-       <% } %>
+        </div>
+       
         <form class="feedback-form" method="POST" action="/feedback">
           <div class="form-group">
             <label for="feedback-form-name">Name</label>
